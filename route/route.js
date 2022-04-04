@@ -1,34 +1,34 @@
 const express = require ('express')
 const routes = express.Router()
-const { postBlog, readBlogs, oneBlog, updateBlog, deleteBlog, postComment, readComments } = require('../controller/controller')
+const { postPerson, postfruit, readPeople, readfruits, onePerson, updatePerson, deleteperson } = require('../controller/controller')
 
 
 // This routes does not have id
 routes
-    .route("/blogs")
-    .post(postBlog)
-    .get(readBlogs)
+    .route("/people")
+    .post(postPerson)
+    .get(readPeople)
 
 
 // All this routes must pass id channel
 routes
-    .route("/blogs/:blogId")
-    .get(oneBlog)
-    .patch(updateBlog)
-    .delete(deleteBlog)
+    .route("/people/:personId")
+    .get(onePerson)
+    .patch(updatePerson)
+    .delete(deleteperson)
 
 
 
 // This route for new comment add
 routes
-    .route("/blogs/:blogId/comment")
-    .post(postComment) 
+    .route("/people/:personId/fruit")
+    .post(postfruit) 
 
 
 
 // This routes to fetch comments
 routes
-    .route("/blogs/:blogId/comment")
-    .get(readComments) 
+    .route("/people/:personId/fruit")
+    .get(readfruits) 
 
 module.exports = routes

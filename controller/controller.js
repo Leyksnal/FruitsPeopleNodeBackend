@@ -1,20 +1,20 @@
-const {blogModel, commentModel} = require('../model/model')
+const {personModel, fruitModel} = require('../model/model')
 
-// Create blog
-const postBlog = async (req, res)=>{
+// Create person
+const postPerson = async (req, res)=>{
     try {
 
-        // Capturing the model shape
+        // Capturing the person shape
         const data ={
-            title: req.body.title,
-            content: req.body.content
+            name: req.body.name,
+            age: req.body.age
         }
 
-        // The create function to adding blogs
-        const blog = await blogModel.create ( data )
+        // The create function to adding persons
+        const who = await personModel.create ( data )
         res.status(201).json({
             status: `Success`,
-            data: blog
+            data: who
         })
     } catch (error) {
         res.status(500).json({
@@ -25,26 +25,26 @@ const postBlog = async (req, res)=>{
 }
 
 
-// Posting a comment under a blog
-const postComment = async (req, res) =>{
+// Posting a fruit under a person
+const postfruit = async (req, res) =>{
     try {
 
-        // Capturing a blog id
-        const blog = await blogModel.findById( req.params.blogId )
-        // Instatiate from the comment
-        const comment = new commentModel(req.body)
-        // Tighing the comment to a blog (id)
-        comment.poster = blog
-        // save the comment
-        comment.save()
-        // Pushing the comment to the targeted blog(id)
-        blog.commentUnderBlog.push(comment)
-        // Save the blog
-        blog.save()
+        // Capturing a person id
+        const who = await personModel.findById( req.params.id )
+        // Instatiate from the fruit
+        const fruit = new fruitModel(req.body)
+        // Tighing the fruit to a person (id)
+        fruit.person = person
+        // save the fruit in the basket
+        fruit.save()
+        // Pushing the fruit to the targeted person(id)
+        who.fruits.push(fruit)
+        // Save the person
+        who.save()
         res.status(200).json({
             status: `Success`,
             data: {
-                comment
+                fruit
             }
         })
 
@@ -58,16 +58,16 @@ const postComment = async (req, res) =>{
 }
 
 
-// Read all the blogs
-const readBlogs = async (req, res) =>{
+// Read all the persons
+const readPeople = async (req, res) =>{
     try {
 
-        // Find method to read all blogs
-        const blog = await blogModel.find()
+        // Find method to read all persons
+        const who = await personModel.find()
         res.status(200).json({
-            status: `All Blogs`,
+            status: `Everyone`,
             data: {
-                blog
+                who
             }
         })
         
@@ -80,17 +80,17 @@ const readBlogs = async (req, res) =>{
 }
 
 
-// Reading comments
-const readComments = async (req, res) =>{
+// Reading fruits
+const readfruits = async (req, res) =>{
     try {
 
 
-        // Capture each of the blogs and populate the comments tied to it
-        const blog = await blogModel.findById( req.params.blogId ).populate('commentUnderBlog')
+        // Capture each of the person and populate the fruit tied to the person
+        const who = await personModel.findById( req.params.Id ).populate('fruits')
         res.status(200).json({
-            status: `Thes are comments`,
+            status: `These are fruits`,
             data: {
-                blog
+                who
             }
         })
         
@@ -103,17 +103,15 @@ const readComments = async (req, res) =>{
 }
 
 
-// Read one blog
-const oneBlog = async (req, res) =>{
+// Read one person
+const onePerson = async (req, res) =>{
     try {
 
-        // Capturing on of the blogs with the method
-        const blog = await blogModel.findById( req.params.id )
+        // Capturing one person with the method
+        const who = await personModel.findById( req.params.id )
         res.status(200).json({
-            status: `One Blog`,
-            data: {
-                blog
-            }
+            status: `Person`,
+            data: who
         })
         
     } catch (error) {
@@ -125,24 +123,24 @@ const oneBlog = async (req, res) =>{
 }
 
 
-// Update one blog
-const updateBlog = async (req, res) =>{
+// Update one person
+const updatePerson = async (req, res) =>{
     try {
 
 
-        // Capturing the shape of the schema
+        // Capturing the shape of the person
         const data ={
-            title: req.body.title,
-            content: req.body.content
+            name: req.body.name,
+            age: req.body.age
         }
 
 
-        // Method capture the blog id and update
-        const blog = await blogModel.findByIdAndUpdate( req.params.id, data )
+        // Method capture the person id and update
+        const who = await personModel.findByIdAndUpdate( req.params.id, data )
         res.status(200).json({
             status: `Updated`,
             data: {
-                blog
+                who
             }
         })
         
@@ -155,13 +153,13 @@ const updateBlog = async (req, res) =>{
 }
 
 
-// Delete one blog
-const deleteBlog = async (req, res) =>{
+// Delete one person
+const deleteperson = async (req, res) =>{
     try {
 
 
-        // Capture the blog id
-        const blog = await blogModel.findByIdAndRemove( req.params.id )
+        // Capture the person id
+        const who = await personModel.findByIdAndRemove( req.params.id )
         res.status(200).json({
             status: `Removed`
         })
@@ -175,11 +173,11 @@ const deleteBlog = async (req, res) =>{
 }
 
 module.exports = {
-    postBlog,
-    readBlogs,
-    oneBlog,
-    updateBlog,
-    deleteBlog,
-    postComment,
-    readComments
+    postPerson,
+    postfruit,
+    readPeople,
+    readfruits,
+    onePerson,
+    updatePerson,
+    deleteperson,
 }

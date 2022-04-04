@@ -3,46 +3,42 @@ const Schema = mongoose.Schema
 
 
 // The shape of the blog
-const blogSchema = new Schema({
-    title: {
+const personSchema = new Schema({
+    name: {
         type: String,
         required: true
     },
-    content: {
+    age: {
         type: String,
         required: true
     },
-    commentUnderBlog:[ {
+    fruits:[ {
         type: Schema.Types.ObjectId,
         required: true
     }]
 }, {timestamps: true})
 
 // Capture the blog Shape/model
-const blogModel = mongoose.model("Blogs", blogSchema)
+const personModel = mongoose.model("FruitPeople", personSchema)
 
 
 // The shape of the comment
-const commentSchema = new Schema({
+const fruitSchema = new Schema({
     name: {
         type: String,
         required: true
     },
-    msg: {
-        type: String,
-        required: true
-    },
-    poster: {
+    person: {
         type: Schema.Types.ObjectId,
-        ref: 'Blogs'
+        ref: 'Fruits'
     }
 }, {timestamps: true})
 
 
 // Capture the comment shape/model
-const commentModel = mongoose.model('comment', commentSchema)
+const fruitModel = mongoose.model('fruits', fruitSchema)
 
 module.exports = {
-    blogModel,
-    commentModel
+    personModel,
+    fruitModel
 }
